@@ -9,7 +9,7 @@ function ShopAll() {
   useEffect(() => {
     const datafetching = async () => {
       try {
-        const response = await axios.get('http://localhost:5100/api/get-category');
+        const response = await axios.get('https://nglx-server.onrender.com/api/get-category');
         console.log(response.data.data);
         setData(response.data.data);
       } catch (error) {

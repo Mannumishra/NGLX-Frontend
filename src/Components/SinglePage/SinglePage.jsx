@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './SinglePage.css';
 import warrenty from './warrenty.png';
 import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react";
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -10,22 +10,25 @@ function SinglePage() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const { _id } = useParams();
-
-  // Local state for the cart
-  const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem('cartItems')) || []);
-  const [quantity, setQuantity] = useState(() => JSON.parse(localStorage.getItem('quantities')) || {});
+  const [qty, setQty] = useState(1);
+  const [topImage, setTopImage] = useState('');
+  const [open, setOpen] = useState(1);
+  const [quantity, setQuantity] = useState({});
 
   const dataFetching = async () => {
     try {
-      const res = await axios.get('http://localhost:5100/api/getAllProducts');
+      const res = await axios.get('https://nglx-server.onrender.com/api/getAllProducts');
       const fetchData = res.data.data;
-      const fetched = fetchData.filter((item) => item._id === _id);
-      setData(fetched);
+      const fetched = fetchData.find((item) => item._id === _id);
+      setData([fetched]); // Ensure data is an array
+      if (fetched) setTopImage(fetched.images[0]); // Set the initial top image
     } catch (error) {
       console.log(error);
+      toast.error('Failed to fetch data.');
     }
   };
 
+  console.log(data)
   useEffect(() => {
     dataFetching();
     window.scrollTo({
@@ -34,106 +37,47 @@ function SinglePage() {
     });
   }, [_id]);
 
-  useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cart));
-    localStorage.setItem('quantities', JSON.stringify(quantity));
-  }, [cart, quantity]);
-
-  const [topImage, setTopImage] = useState('');
-
   const handleImageClick = (image) => {
     setTopImage(image);
   };
 
-  const [open, setOpen] = useState(1);
-
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
 
-  const handleAddToCart = (item) => {
-    setCart((prevCart) => {
-      const existingItemIndex = prevCart.findIndex(cartItem => cartItem._id === item._id);
-
-      if (existingItemIndex === -1) {
-        setQuantity((prevQuantity) => ({
-          ...prevQuantity,
-          [item._id]: 1 // Initialize with quantity 1
-        }));
-        return [...prevCart, { ...item, quantity: 1 }];
-      } else {
-        const updatedCart = [...prevCart];
-        updatedCart[existingItemIndex].quantity += 1;
-        setQuantity((prevQuantity) => ({
-          ...prevQuantity,
-          [item._id]: updatedCart[existingItemIndex].quantity
-        }));
-        return updatedCart;
-      }
-    });
-
-    toast.success("Product added to cart");
+  const addToCart = (item) => {
+    const cartItem = {
+      id: item._id,
+      productname: item.productName,
+      productprice: item.afterdiscount,
+      productquantity: qty,
+      productimage: item.images[0]
+    };
+    const existingCart = JSON.parse(localStorage.getItem('nglxcartItems')) || [];
+    const productIndex = existingCart.findIndex(item => item.id === cartItem.id);
+    if (productIndex >= 0) {
+      existingCart[productIndex].quantity += qty;
+    } else {
+      existingCart.push(cartItem);
+    }
+    localStorage.setItem('nglxcartItems', JSON.stringify(existingCart));
+    toast.success('Product added to cart successfully!');
   };
 
-  const handleIncrease = (item) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.map(cartItem => {
-        if (cartItem._id === item._id) {
-          const newQuantity = cartItem.quantity + 1;
-          setQuantity(prevQuantity => ({
-            ...prevQuantity,
-            [item._id]: newQuantity
-          }));
-          return { ...cartItem, quantity: newQuantity };
-        }
-        return cartItem;
-      });
-      return updatedCart;
-    });
+  const handleDecrease = () => {
+    if (qty > 1) setQty(qty - 1);
   };
 
-  const handleDecrease = (item) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.map(cartItem => {
-        if (cartItem._id === item._id) {
-          const newQuantity = cartItem.quantity - 1;
-          if (newQuantity <= 0) {
-            handleRemove(item);
-            return null;
-          }
-          setQuantity(prevQuantity => ({
-            ...prevQuantity,
-            [item._id]: newQuantity
-          }));
-          return { ...cartItem, quantity: newQuantity };
-        }
-        return cartItem;
-      }).filter(Boolean);
-      return updatedCart;
-    });
-  };
-
-  const handleRemove = (item) => {
-    setCart(prevCart => {
-      const updatedCart = prevCart.filter(cartItem => cartItem._id !== item._id);
-      localStorage.setItem('cartItems', JSON.stringify(updatedCart)); // Update localStorage
-      return updatedCart;
-    });
-
-    setQuantity(prevQuantity => {
-      const updatedQuantity = { ...prevQuantity };
-      delete updatedQuantity[item._id];
-      localStorage.setItem('quantities', JSON.stringify(updatedQuantity)); // Update localStorage
-      return updatedQuantity;
-    });
+  const handleIncrease = () => {
+    setQty(qty + 1);
   };
 
   return (
     <section className='SinglePage-section'>
       <div className="SinglePage-container">
-        {data && data.map((item, index) => (
-          <>
+        {data && data.map((item) => (
+          <React.Fragment key={item._id}>
             <div className="left">
               <div className="up">
-                <img src={topImage || item.images[0]} alt={item.productName} />
+                <img src={topImage} alt={item.productName} />
               </div>
               <div className="down">
                 {item.images.map((image, imgIndex) => (
@@ -160,9 +104,9 @@ function SinglePage() {
                 <p>(4.8 | 304)</p>
               </div>
               <div className="incdec">
-                <div className="dec" onClick={() => handleDecrease(item)}>-</div>
-                <div className="res">{quantity[item._id] || 1}</div>
-                <div className="inc" onClick={() => handleIncrease(item)}>+</div>
+                <div className="dec" onClick={handleDecrease}>-</div>
+                <div className="res">{qty}</div>
+                <div className="inc" onClick={handleIncrease}>+</div>
               </div>
 
               <div className="des">
@@ -197,11 +141,11 @@ function SinglePage() {
               </div>
 
               <div className="btns">
-                <button className='btn-grad' onClick={() => handleAddToCart(item)}>Add to Cart</button>
+                <button className='btn-grad' onClick={() => addToCart(item)}>Add to Cart</button>
                 <button className='btn-grad'>Buy Now</button>
               </div>
             </div>
-          </>
+          </React.Fragment>
         ))}
       </div>
     </section>

@@ -29,7 +29,7 @@ const Login = () => {
     console.log(formdata);
     try {
       const response = await axios.post(
-        "http://localhost:5100/api/login",
+        "https://nglx-server.onrender.com/api/login",
         formdata
       );
       toast.success("Login Successful");

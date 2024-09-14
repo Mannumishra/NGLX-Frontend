@@ -1,105 +1,136 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './FinalCart.css';
 import toast from 'react-hot-toast';
 
 function FinalCart() {
-  const navigate = useNavigate();
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [orderData, setOrderData] = useState(null);
-
-  const [Order, setOrder] = useState({
-    address: {
-      street: '',
-      city: '',
-      state: '',
-      pincode: ''
-    },
-    PyamentType: ''
+  const userId = sessionStorage.getItem("userid");
+  const [formData, setFormData] = useState({
+    userId: "123456",
+    // userId: userId,
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    state: '',
+    city: '',
+    pin: '',
+    cartItems: [],
+    totalPrice: 0,
+    transactionId: '',
+    orderStatus: 'Order Is Placed',
+    paymentMode: 'Online Payment',
+    paymentStatus: 'Pending'
   });
 
-  useEffect(() => {
-    const storedOrderData = JSON.parse(localStorage.getItem('orderData'));
-    if (storedOrderData) {
-      setOrderData(storedOrderData);
-      const calculatedTotalPrice = storedOrderData.items.reduce((acc, item) => {
-        const quantity = storedOrderData.quantities[item._id] || 1;
-        return acc + item.afterdiscount * quantity;
-      }, 0);
-      setTotalPrice(calculatedTotalPrice);
-    } else {
-      navigate('/cart');
-    }
-  }, [navigate]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const cartKey = location.state?.source === 'buyNow' ? 'nglxcartItemsBuynow' : 'nglxcartItems';
+
+  // Effect to retrieve cart items from localStorage
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem(cartKey)) || [];
+    console.log("items retrieved from localStorage:", items); // Check items retrieved
+    setFormData(prev => ({ ...prev, cartItems: items }));
+  }, [cartKey]);
+
+  // Effect to calculate total price
+  useEffect(() => {
+    if (formData.cartItems.length > 0) {
+      const total = formData.cartItems.reduce((acc, item) => acc + (item.productprice * item.productquantity), 0);
+      setFormData(prev => ({ ...prev, totalPrice: total }));
+      console.log("Updated total price:", total); // Check total price calculation
+    }
+  }, [formData.cartItems]);
+
+  // Handle input field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setOrder((prevOrder) => ({
-      ...prevOrder,
-      address: {
-        ...prevOrder.address,
-        [name]: value
-      },
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Handle payment mode change
+  const handlePaymentModeChange = (e) => {
+    setFormData(prev => ({ ...prev, paymentMode: e.target.value }));
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    const userInfo = JSON.parse(localStorage.getItem('userInfo')); // Assuming you store user info in localStorage
-
-    const combinedOrder = {
-      items: orderData.items.map(item => ({
-        image: item.img,
-        Productname: item.productName,
-        price: item.afterdiscount,
-        Quantity: orderData.quantities[item._id] || 1,
-        Categories: item.categories
-      })),
-      FinalPrice: totalPrice,
-      UserInfo: {
-        Name: userInfo.Name,
-        Email: userInfo.Email,
-        userid: userInfo.userid
-      },
-      UserDeliveryAddress: {
-        Street: Order.address.street,
-        HouseNo: '', // Assuming you have this data
-        Pincode: Order.address.pincode,
-        State: Order.address.state,
-        City: Order.address.city,
-        landMark: '' // Assuming you have this data
-      },
-      Transaction_id: '', // You might want to generate this or get it from payment gateway response
-      OrderStatus: 'pending',
-      PaymentMode: Order.PyamentType,
-      PaymentStatus: 'Complete'
-    };
-
-    try {
-      const response = await axios.post('http://localhost:5100/api/Make-Orders', combinedOrder);
-      if (response.status === 200) {
-        console.log('Order submitted successfully', response.data);
-        // Optionally, you can clear the cart and redirect to order confirmation page
-        localStorage.removeItem('cartItems');
-        localStorage.removeItem('quantities');
-        navigate('/order-confirmation'); // Ensure you have a route for this
+    if (formData.paymentMode === 'Cash on Delivery') {
+      try {
+        console.log(formData)
+        const response = await axios.post('https://nglx-server.onrender.com/api/checkout', formData);
+        toast.success('checkout completed successfully!');
+        localStorage.removeItem(cartKey);
+        navigate('/order-confirmation');
+      } catch (error) {
+        console.error(error);
+        toast.error('Error during checkout. Please try again.');
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error submitting order', error);
+    } else {
+      handleRazorpayPayment();
     }
   };
 
-  if (!orderData) return null;
+  // Handle Razorpay payment for Online Payment
+  const handleRazorpayPayment = async () => {
+    try {
+      const response = await axios.post('https://nglx-server.onrender.com/api/checkout', formData);
+      const { razorpayOrderId, amount, currency } = response.data;
 
-  const handleRedirectPage = () => {
-    toast.success('Oder Successfully.!!')
-    setTimeout(() => {
-        navigate('/')
-    }, 2000);
-  }
+      const amountInPaise = Math.round(amount);
+
+      const options = {
+        key: 'rzp_test_XPcfzOlm39oYi8', // Replace with your Razorpay key
+        amount: amountInPaise.toString(),
+        currency: currency,
+        name: 'Your Company Name',
+        description: 'Payment for your order',
+        order_id: razorpayOrderId,
+        handler: async function (response) {
+          const paymentId = response.razorpay_payment_id;
+          const orderId = response.razorpay_order_id;
+          const signature = response.razorpay_signature;
+
+          try {
+            await axios.post('https://nglx-server.onrender.com/api/verify-payment', {
+              razorpay_payment_id: paymentId,
+              razorpay_order_id: orderId,
+              razorpay_signature: signature,
+            });
+            toast.success('Payment successful!');
+            localStorage.removeItem(cartKey);
+            navigate('/order-confirmation');
+          } catch (error) {
+            console.error('Payment verification error:', error);
+            toast.error('Error verifying payment. Please try again.');
+          }
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: '#3399cc',
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error('Payment initiation error:', error);
+      toast.error('Error initiating payment. Please try again.');
+    }
+  };
 
   return (
     <section className="container mx-auto mt-7 px-4 md:px-0">
@@ -109,28 +140,34 @@ function FinalCart() {
             <p className="text-2xl md:text-4xl font-bold">Order Summary</p>
             <p className="text-gray-500">Check your items and select a suitable shipping method.</p>
             <div className="mt-4 p-3 border rounded bg-white">
-              {orderData.items.length > 0 ? (
-                orderData.items.map((item, index) => {
-                  const itemTotalPrice = item.afterdiscount * (orderData.quantities[item._id] || 1);
+              {formData.cartItems.length > 0 ? (
+                formData.cartItems.map((item, index) => {
+                  const itemTotalPrice = item.productprice * (item.productquantity || 1);
                   return (
-                    <div key={item._id} className="flex flex-col md:flex-row mb-3 p-2 border rounded">
-                      <img
-                        className="m-2 rounded border order-summary-img"
-                        src={item.img}
-                        alt={item.name}
-                        style={{ maxWidth: "100px", maxHeight: "100px" }}
-                      />
-                      <div className="flex-grow flex flex-col justify-between px-3 py-2">
-                        <span className="product-name font-bold">{item.productName}</span>
-                        <span className="text-lg font-bold">Quantity: {orderData.quantities[item._id]}</span>
-                        <p className="text-lg font-bold text-red-600">Rs {itemTotalPrice}</p>
+                    <>
+                      <div key={item.id || index} className="flex flex-col md:flex-row mb-3 p-2 border rounded">
+                        <img
+                          className="m-2 rounded border order-summary-img"
+                          src={item.productimage}
+                          alt={item.productname}
+                          style={{ maxWidth: "100px", maxHeight: "100px" }}
+                        />
+                        <div className="flex-grow flex flex-col justify-between px-3 py-2">
+                          <span className="product-name font-bold">{item.productname}</span>
+                          <span className="text-lg font-bold">Quantity: {item.productquantity}</span>
+                          <p className="text-lg font-bold text-red-600">Rs {itemTotalPrice}</p>
+
+                        </div>
                       </div>
-                    </div>
+                    </>
                   );
                 })
               ) : (
                 <p>No products in the cart</p>
               )}
+              <div>
+                <p className='text-xl font-bold'>Total Price - {formData.totalPrice}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -139,17 +176,56 @@ function FinalCart() {
           <div className="bg-gray-100 p-4 rounded">
             <p className="text-xl font-bold">Billing Address</p>
             <p className="text-gray-500">Complete your order by providing your Address details.</p>
-            {/* <form onSubmit={handleRedirectPage}> */}
             <form onSubmit={handleSubmit}>
               <div className="mt-3">
-                <label htmlFor="street" className="font-bold">Street</label>
+                <label htmlFor="street" className="font-bold">Name</label>
                 <input
                   onChange={handleChange}
                   type="text"
                   required
                   id="street"
-                  value={Order.address.street}
-                  name="street"
+                  value={formData.name}
+                  name="name"
+                  className="form-control border outline-none rounded-md p-2 block w-full mt-1"
+                  placeholder="Name"
+                />
+              </div>
+              <div className="mt-3">
+                <label htmlFor="street" className="font-bold">Phone</label>
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  required
+                  id="street"
+                  value={formData.phone}
+                  name="phone"
+                  className="form-control border outline-none rounded-md p-2 block w-full mt-1"
+                  placeholder="Phone"
+                />
+              </div>
+              <div className="mt-3">
+                <label htmlFor="street" className="font-bold">Email</label>
+                <input
+                  onChange={handleChange}
+                  type="email"
+                  required
+                  id="street"
+                  value={formData.email}
+                  name="email"
+                  className="form-control border outline-none rounded-md p-2 block w-full mt-1"
+                  placeholder="Email Address"
+                />
+              </div>
+
+              <div className="mt-3">
+                <label htmlFor="street" className="font-bold">Address</label>
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  required
+                  id="street"
+                  value={formData.address}
+                  name="address"
                   className="form-control border outline-none rounded-md p-2 block w-full mt-1"
                   placeholder="Street Address"
                 />
@@ -161,9 +237,9 @@ function FinalCart() {
                   type="text"
                   required
                   id="city"
-                  value={Order.address.city}
+                  value={formData.city}
                   name="city"
-                  className="form-control border outline-none rounded-md p-2 block w-full mt-1 uppercase"
+                  className="form-control border outline-none rounded-md p-2 block w-full mt-1"
                   placeholder="Enter Your City"
                 />
               </div>
@@ -175,56 +251,45 @@ function FinalCart() {
                   required
                   id="state"
                   name="state"
-                  value={Order.address.state}
-                  className="form-control p-2 block outline-none border rounded-md w-full mt-1"
-                  placeholder="Enter Your State"
+                  value={formData.state}
+                  className="form-control p-2 block outline-none border rounded-md mt-1 w-full"
+                  placeholder="Enter your State"
                 />
               </div>
               <div className="mt-3">
-                <label htmlFor="pincode" className="font-bold">Pincode</label>
+                <label htmlFor="pin" className="font-bold">Pincode</label>
                 <input
                   onChange={handleChange}
-                  type="text"
+                  type="number"
                   required
-                  id="pincode"
-                  value={Order.address.pincode}
-                  name="pincode"
-                  className="form-control p-2 block outline-none border rounded-md w-full mt-1"
-                  placeholder="Pincode"
+                  id="pin"
+                  name="pin"
+                  value={formData.pin}
+                  className="form-control p-2 block outline-none border rounded-md mt-1 w-full"
+                  placeholder="Enter your Pincode"
                 />
               </div>
               <div className="mt-3">
-                <label htmlFor="paymentType" className="font-bold">Payment Type</label>
+                <label htmlFor="paymentMode" className="font-bold">Payment Type</label>
                 <select
-                  onChange={handleChange}
-                  value={Order.PyamentType}
-                  name="PyamentType"
-                  className="form-control p-2 border rounded-md outline-none block w-full mt-1"
+                  onChange={handlePaymentModeChange}
+                  id="paymentMode"
+                  name="paymentMode"
+                  value={formData.paymentMode}
+                  className="form-control p-2 block outline-none border rounded-md mt-1 w-full"
                 >
-                  <option value="">Select Payment Method</option>
-                  <option value="COD">COD</option>
-                  <option disabled value="Online">Online</option>
+                  <option value="Cash on Delivery">Cash on Delivery</option>
+                  <option value="Online Payment">Online Payment</option>
                 </select>
               </div>
 
-              <div className="mt-4 border-t border-b py-2">
-                <div className="flex justify-between">
-                  <p className="mb-0 font-bold">Subtotal</p>
-                  <p className="mb-0 font-bold text-lg">Rs {orderData.totalMRP}</p>
-                </div>
-                <div className="flex justify-between">
-                  <p className="mb-0 font-bold">Shipping</p>
-                  <div>
-                    <span className="text-green-600 text-lg mx-2">Free</span>
-                    <span className="mb-0 font-bold text-gray-400 line-through">Rs {orderData.shippingFee}</span>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 flex justify-between">
-                <p className="text-2xl font-bold">Total</p>
-                <p className="text-2xl font-bold">Rs {totalPrice}</p>
-              </div>
-              <button type="submit" onClick={handleRedirectPage} className="mt-4 w-full bg-red-600 text-white py-2 rounded">Place Order</button>
+              <button
+                disabled={loading}
+                type="submit"
+                className="mt-4 bg-green-600 text-white p-3 block w-full text-center rounded-md font-bold"
+              >
+                {loading ? 'Processing...' : 'Complete checkout'}
+              </button>
             </form>
           </div>
         </div>

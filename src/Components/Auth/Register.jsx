@@ -27,7 +27,7 @@ function Register() {
     setLoading(true); // Set loading to true when registration starts
     console.log(formData);
     try {
-      const response = await axios.post('http://localhost:5100/api/register', formData);
+      const response = await axios.post('https://nglx-server.onrender.com/api/register', formData);
       console.log(response.data);
       toast.success('OTP Sent Successfully!', {
         className: 'toast-success'
