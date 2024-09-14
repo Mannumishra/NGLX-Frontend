@@ -1,0 +1,126 @@
+.contact-section{
+    width: 100%;
+}
+
+.contact-section .contact-container{
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0px 20px;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-section .contact-container .bg{
+    height: 300px;
+    width: 100%;
+    background: url(./bg.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.contact-section .contact-container .contact-detail{
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+}
+
+.contact-section .contact-container .left{
+    width: 40%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contact-section .contact-container .left h2{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.contact-section .contact-container .left .same{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contact-section .contact-container .right{
+    width: 50%;
+    background-color: #F6EDF0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 30px 25px;
+}
+
+.contact-section .contact-container .right .same{
+    width: 100%;
+    height: 40px;
+}
+
+.contact-section .contact-container .right .same input{
+    width: 100%;
+    height: 100%;
+    outline: none;
+    padding-left: 5px;
+    border: 1px solid rgb(158, 158, 158);
+    border-radius: 3px;
+}
+
+.contact-section .contact-container .right .mssg{
+    width: 100%;
+    height: 80px;
+}
+
+.contact-section .contact-container .right .mssg textarea{
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: 1px solid rgb(158, 158, 158);
+    padding-left: 5px;
+    border-radius: 3px;
+}
+
+.contact-section .contact-container .right button{
+    background-color: black;
+    color: white;
+    padding: 9px 24px;
+    border-radius: 3px;
+}
+
+.contact-section .contact-container .map{
+    width: 100%;
+    height: 400px;
+}
+
+.contact-section .contact-container .map iframe{
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width:740px) {
+
+    .contact-section .contact-container .bg{
+        height: 200px;
+    }
+
+    .contact-section .contact-container .contact-detail{
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .contact-section .contact-container .left{
+        width: 100%;
+    }
+    
+    .contact-section .contact-container .right{
+        width: 100%;
+    }
+    
+}

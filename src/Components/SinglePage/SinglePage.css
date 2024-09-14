@@ -1,0 +1,258 @@
+.SinglePage-section {
+    width: 100%;
+}
+
+.SinglePage-section .SinglePage-container {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 40px 60px;
+
+    display: flex;
+    /* align-items:center; */
+    justify-content: space-between;
+}
+    
+.SinglePage-section .SinglePage-container .left {
+    width: 48%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.SinglePage-section .SinglePage-container .left .up {
+    width: 100%;
+    height: 500px;
+}
+
+.SinglePage-section .SinglePage-container .left .up img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.SinglePage-section .SinglePage-container .left .down {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.SinglePage-section .SinglePage-container .left .down .same-img {
+    width: 21%;
+    cursor: pointer;
+}
+
+.SinglePage-section .SinglePage-container .left .down .same-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.same-img.active img {
+    border: 2px solid black;
+}
+
+.SinglePage-section .SinglePage-container .right {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.SinglePage-section .SinglePage-container .right .price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.SinglePage-section .SinglePage-container .right .price h2 {
+    font-weight: 700;
+    font-size: 30px;
+    color: black;
+}
+
+.SinglePage-section .SinglePage-container .right .price del {
+    font-size: 12px;
+    color: rgb(98, 98, 98);
+}
+
+.SinglePage-section .SinglePage-container .right .price span {
+    font-size: 12px;
+    color: rgb(98, 98, 98);
+}
+
+.SinglePage-section .SinglePage-container .right h2 {
+    color: rgb(97, 97, 97);
+    font-size: 19px;
+}
+
+.SinglePage-section .SinglePage-container .right strong {
+    color: rgb(97, 97, 97);
+    font-size: 18px;
+}
+
+.SinglePage-section .SinglePage-container .right .star {
+    background-color: rgb(233, 233, 233);
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.SinglePage-section .SinglePage-container .right .star i {
+    color: gold;
+}
+
+.SinglePage-section .SinglePage-container .right .star p {
+    color: rgb(98, 98, 98);
+}
+
+.SinglePage-section .SinglePage-container .right .incdec{
+    width: 120px;
+    height: 40px;
+    border: 1px solid black;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.SinglePage-section .SinglePage-container .right .incdec .dec{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #BA006C;
+    height: 100%;
+    color: white;;
+    cursor: pointer;
+}
+
+.SinglePage-section .SinglePage-container .right .incdec .res{
+    /* width: 30%; */
+}
+
+.SinglePage-section .SinglePage-container .right .incdec .inc{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #BA006C;
+    color: white;
+    cursor: pointer;
+}
+
+.SinglePage-section .SinglePage-container .right .main-accordion-parent {
+    width: 100%;
+    overflow: hidden;
+}
+
+.SinglePage-section .SinglePage-container .right .accordion-heading {
+    width: 100%;
+    padding: 10px;
+    color: rgb(98, 98, 98);
+    border-bottom: 1px solid rgb(143, 143, 143);
+    display: flex;
+}
+
+.SinglePage-section .SinglePage-container .right .accordion-children {
+    padding: 10px;
+    /* border-bottom: 1px solid rgb(170, 170, 170); */
+}
+
+.SinglePage-section .SinglePage-container .right .accordion-children ul li {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.SinglePage-section .SinglePage-container .right .accordion-children ul li b {
+    font-weight: 700;
+}
+
+.SinglePage-section .SinglePage-container .right .services {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 15px;
+}
+
+.SinglePage-section .SinglePage-container .right .services .col {
+    width: 47%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.SinglePage-section .SinglePage-container .right .services .col i {
+    font-size: 40px;
+}
+
+.SinglePage-section .SinglePage-container .right .services .col img {
+    width: 42px;
+}
+
+.SinglePage-section .SinglePage-container .right .btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.SinglePage-section .SinglePage-container .right .services .col p {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+
+.btn-grad {
+    background-image: linear-gradient(to right, #BA006C 0%, #FAE0EE 51%, #BA006C 100%);
+    margin: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.btn-grad:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+@media (max-width:800px) {
+
+    .SinglePage-section .SinglePage-container {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .SinglePage-section .SinglePage-container .left {
+        width: 100%;
+    }
+
+    .SinglePage-section .SinglePage-container .right {
+        width: 100%;
+    }
+
+}
+
+@media (max-width:700px) {
+
+    .SinglePage-section .SinglePage-container {
+        padding: 40px 20px;
+    }
+
+}

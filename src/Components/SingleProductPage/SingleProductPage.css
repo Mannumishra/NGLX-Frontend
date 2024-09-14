@@ -1,0 +1,102 @@
+.singleProduct-section{
+    width: 100%;
+}
+
+.singleProduct-section .container{
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.singleProduct-section .container .heading{
+    display: flex;
+    flex-direction: column;
+    /* gap: 8px; */
+    align-items: center;
+    justify-content: center;
+}
+
+.singleProduct-section .container .heading span{
+    font-size: 13px;
+    font-weight: 400;
+    color: rgb(141, 141, 141);
+}
+
+.singleProduct-section .container .heading h2{
+    font-size: 30px;
+    font-weight: 700;
+}
+    
+.singleProduct-section .container .main-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+    
+.singleProduct-section .container .main-container .col{
+    width: 23%;
+
+    display: flex;
+    flex-direction: column;
+    /* gap: 8px; */
+}
+    
+.singleProduct-section .container .main-container .col .img{
+    width: 100%;
+    height: 360px;
+}
+
+.singleProduct-section .container .main-container .col .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+    
+.singleProduct-section .container .main-container .col .content{
+    padding: 8px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+    
+.singleProduct-section .container .main-container .col .content .star i{
+    color: goldenrod;
+}
+
+.singleProduct-section .container .main-container .col .content h3{
+    font-size: 16px;
+}
+
+.singleProduct-section .container .main-container .col .content .price{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 14px;
+}
+
+.singleProduct-section .container .main-container .col .content .price del{
+    color: rgb(143, 143, 143);
+}
+
+.singleProduct-section .container .main-container .col .content .price h4{
+    color: rgb(71, 71, 71);
+}
+
+@media (max-width:740px) {
+
+    .singleProduct-section .container .main-container .col{
+        width: 46%;
+    }
+
+    .singleProduct-section .container .main-container .col .img{
+        width: 100%;
+        height: 230px;
+    }
+    
+}

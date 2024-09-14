@@ -1,0 +1,82 @@
+.newCollectionBanner-section{
+    width: 100%;
+    height: 600px;
+}
+
+.newCollectionBanner-section .container{
+    height: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0px 20px;
+}
+
+.newCollectionBanner-section .container .main-container{
+    height: 100%;
+    width: 100%;
+    height: 100%;
+    background: url(./bg.jpg);
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-attachment: fixed;
+}
+
+.newCollectionBanner-section .container .main-container .left{
+    width: 47%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding-left: 50px;
+    color: white;
+}
+
+.newCollectionBanner-section .container .main-container .left span{
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.newCollectionBanner-section .container .main-container .left h1{
+    font-size: 55px;
+    line-height: 1.1;
+}
+
+.newCollectionBanner-section .container .main-container .left p{
+    font-size: 17px;
+}
+
+.newCollectionBanner-section .container .main-container .left a{
+    padding: 8px 25px;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+@media (max-width:740px) {
+
+    .newCollectionBanner-section .container .main-container .left{
+        width: 100%;
+        padding-left: 10px;
+    }
+
+    .newCollectionBanner-section{
+        width: 100%;
+        height: 450px;
+    }
+
+    .newCollectionBanner-section .container .main-container{
+        width: 100%;
+        height: 100%;
+        background: url(./bg.jpg);
+        background-position: bottom;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+}

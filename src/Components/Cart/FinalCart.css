@@ -1,0 +1,21 @@
+.finalCart-section{
+    width: 100%;
+}
+
+.finalCart-section .finalCart-container{
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 40px 20px;
+
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+}
+
+.finalCart-section .finalCart-container .left{
+    width: 40%;
+}
+    
+.finalCart-section .finalCart-container .right{
+    width: 55%;
+}

@@ -1,0 +1,40 @@
+.client-section{
+    width: 100%;
+    /* background-image: url(./bg.png); */
+}
+
+.client-section .container{
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 40px 60px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.client-section .container .heading{
+    width: 100%;
+    text-align: center;
+}
+
+.client-section .container .heading span{
+    font-size: 33px;
+    font-weight: 700;
+    color: #D5693E;
+    position: relative;
+    text-shadow: 2px 2px rgb(189, 189, 189);
+}
+
+.mySwiper-clients .img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mySwiper-clients .img img{
+    width: 60%;
+    aspect-ratio: 3/2;
+    object-fit: contain;
+    mix-blend-mode: color-burn;
+}

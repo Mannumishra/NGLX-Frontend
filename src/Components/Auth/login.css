@@ -1,0 +1,165 @@
+.login-container {
+    width: 100%;
+}
+
+.login-container .container {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 30px 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.login-container .container .main-login-box{
+    width: 80%;
+    padding: 10px 15px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+
+    /* From https://css.glass */
+background: rgba(255, 255, 255, 0.2);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-container .container .main-login-box .login-form-main{
+    width: 50%;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.login-container .container .main-login-box .login-form-main .heading{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container .container .main-login-box .login-form-main .heading span{
+    font-size: 2rem;
+    font-variant: small-caps;
+    font-weight: 700;
+}
+
+.login-container .container .main-login-box .login-form-main form{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.login-container .container .main-login-box .login-form-main form input{
+    width: 100%;
+    height: 40px;
+    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+
+.login-container .container .main-login-box .login-form-main form .button-box{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-container .container .main-login-box .login-form-main form .button-box .up-btn{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-container .container .main-login-box .login-form-main form .button-box .down-link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container .container .main-login-box .login-form-main form .button-box .down-link a{
+    color: blue;
+}
+
+.login-container .container .main-login-box .right-bg{
+    width: 50%;
+    object-fit: cover;
+    height: 100%;
+}
+
+.login-container .container .main-login-box .right-bg img{
+    width: 100%;
+    height: 100%;
+}
+
+         
+.btn-grad {
+    background-color: #910A67;
+    margin: 10px;
+    padding: 10px 28px;
+    white-space: nowrap;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    /* border-radius: 10px; */
+    display: block;
+  }
+
+  .btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+ 
+
+  @media screen and (max-width:890px) {
+    .login-container .container .main-login-box{
+        width: 100%;
+        padding: 10px 15px;
+        /* height: 450px; */
+        display: flex;
+        justify-content: space-between;
+
+        flex-direction: column-reverse;
+    }
+    .login-container .container .main-login-box .login-form-main {
+        width: 100%;
+   
+    }
+    .login-container .container .main-login-box .right-bg {
+        width: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        height: 100%;
+    }
+    .login-container .container .main-login-box .right-bg{
+    
+        height: 400px;
+    }
+    .login-container .container .main-login-box {
+        
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+  
+    }
+    .login-container .container {
+  
+        padding: 10px 0px;
+      
+    }
+
+    .login-container .container .main-login-box .login-form-main form .button-box .up-btn {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0px;
+    }
+  }

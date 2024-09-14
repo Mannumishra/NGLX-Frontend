@@ -1,0 +1,93 @@
+.ShopAll-section{
+    width: 100%;
+}
+
+.ShopAll-section .container{
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 40px 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ShopAll-section .container .heading{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ShopAll-section .container .heading span{
+    /* font-size: ; */
+    font-weight: 700;
+}
+
+.ShopAll-section .container .main-container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.ShopAll-section .container .main-container .col{
+    width: 23%;
+    position: relative;
+    overflow: hidden;
+    height: 295px;
+}
+
+.ShopAll-section .container .main-container .col img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    object-position: center;
+}
+
+/* .ShopAll-section .container .main-container .col:hover .head{
+    bottom: 0%;
+} */
+
+.ShopAll-section .container .main-container .col .head{
+    width: 100%;
+    background-color: rgba(32, 32, 32, 0.379);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    bottom: 0%;
+    transition: all 0.2s linear;
+}
+
+.ShopAll-section .container .main-container .col .head h4{
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+}
+
+@media (max-width:740px) {
+
+    .ShopAll-section .container .main-container{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+    
+    .ShopAll-section .container .main-container .col{
+        width: 46%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ShopAll-section .container .main-container .col{
+        height: 210px;
+    }
+    
+}

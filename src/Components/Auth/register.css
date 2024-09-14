@@ -1,0 +1,145 @@
+.register-section {
+    width: 100%;
+}
+
+.register-section .register-container {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 30px 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-section .register-container .main-register-box {
+    width: 80%;
+    padding: 10px 15px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.register-section .register-container .main-register-box .left-bg{
+    width: 50%;
+    object-fit: cover;
+    height: 100%;
+}
+
+.register-section .register-container .main-register-box .left-bg img{
+    width: 100%;
+    height: 100%;
+}
+
+
+.register-section .register-container .main-register-box .register-form-main{
+    width: 50%;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.register-section .register-container .main-register-box .register-form-main .heading{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-section .register-container .main-register-box .register-form-main .heading span{
+    font-size: 2rem;
+    font-variant: small-caps;
+    font-weight: 700;
+}
+
+.register-section .register-container .main-register-box .register-form-main form{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.register-section .register-container .main-register-box .register-form-main form input{
+    width: 100%;
+    height: 40px;
+    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    outline: none;
+}
+
+.register-section .register-container .main-register-box .register-form-main form .button-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width:890px) {
+    .register-section .register-container .main-register-box{
+        width: 100%;
+        padding: 10px 15px;
+        /* height: 450px; */
+        display: flex;
+        justify-content: space-between;
+
+        flex-direction: column;
+    }
+    .register-section .register-container .main-register-box .register-form-main {
+        width: 100%;
+   
+    }
+    .register-section .register-container .main-register-box .left-bg {
+        width: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        height: 100%;
+    }
+    .register-section .register-container .main-register-box .left-bg{
+    
+        height: 400px;
+    }
+    .register-section .register-container .main-register-box {
+        
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+  
+    }
+    .register-section .register-container {
+  
+        padding: 10px 0px;
+      
+    }
+
+    /* .register-section .register-container .main-register-box .register-form-main form .button-box .up-btn {
+        display: flex;
+        justify-content: center;
+        gap: 0px;
+    } */
+  }
+
+
+  /* toast.css */
+.toast-success {
+    background-color: #4caf50;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 8px;
+  }
+  
+  .toast-error {
+    background-color: #f44336;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 8px;
+  }
+  

@@ -1,0 +1,119 @@
+.TredingProduct-section{
+    width: 100%;
+}
+
+.TredingProduct-section .container{
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.TredingProduct-section .container .heading{
+    display: flex;
+    flex-direction: column;
+    /* gap: 8px; */
+    align-items: center;
+    justify-content: center;
+}
+
+.TredingProduct-section .container .heading span{
+    font-size: 13px;
+    font-weight: 400;
+    color: rgb(141, 141, 141);
+}
+
+.TredingProduct-section .container .heading h2{
+    font-size: 30px;
+    font-weight: 700;
+}
+    
+.TredingProduct-section .container .main-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+    
+.TredingProduct-section .container .main-container .col{
+    width: 23%;
+
+    display: flex;
+    flex-direction: column;
+    /* gap: 8px; */
+}
+    
+.TredingProduct-section .container .main-container .col .img{
+    width: 100%;
+    height: 350px;
+}
+
+.TredingProduct-section .container .main-container .col .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+    
+.TredingProduct-section .container .main-container .col .content{
+    padding: 8px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+    
+.TredingProduct-section .container .main-container .col .content .star i{
+    color: goldenrod;
+}
+
+.TredingProduct-section .container .main-container .col .content h3{
+    font-size: 16px;
+}
+
+.TredingProduct-section .container .main-container .col .content .price{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 14px;
+}
+
+.TredingProduct-section .container .main-container .col .content .price del{
+    color: rgb(143, 143, 143);
+}
+
+.TredingProduct-section .container .main-container .col .content .price h4{
+    color: rgb(71, 71, 71);
+}
+
+.TredingProduct-section .container .showmore-btn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.TredingProduct-section .container .showmore-btn button{
+    background-color: #F6EDF0;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+@media (max-width:740px) {
+
+    .TredingProduct-section .container .main-container .col .img{
+        width: 100%;
+        height: 230px;
+    }
+
+    .TredingProduct-section .container .main-container .col .img img{
+        object-fit: cover;
+    }
+
+    .TredingProduct-section .container .main-container .col{
+        width: 47%;
+    }
+    
+}

@@ -1,0 +1,107 @@
+.EmailVerification-section {
+    width: 100%;
+}
+
+.EmailVerification-section .EmailVerification-container {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 40px 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.EmailVerification-section .EmailVerification-container .main-container {
+    width: 80%;
+    padding: 10px 15px;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* .EmailVerification-section .EmailVerification-container .main-container .left{
+    width: 47%;
+} */
+
+.EmailVerification-section .EmailVerification-container .main-container .right {
+    width: 100%;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.EmailVerification-section .EmailVerification-container .main-container .right .heading {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.EmailVerification-section .EmailVerification-container .main-container .right .heading span {
+    font-size: 2rem;
+    font-variant: small-caps;
+    font-weight: 700;
+}
+
+.EmailVerification-section .EmailVerification-container .main-container .right form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.EmailVerification-section .EmailVerification-container .main-container .right form .detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-between; */
+    justify-content: center;
+    gap: 20px;
+}
+
+.EmailVerification-section .EmailVerification-container .main-container .right form input {
+    width: 48%;
+    height: 40px;
+    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+}
+
+.EmailVerification-section .EmailVerification-container .main-container .right form .button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width:700px) {
+
+    .EmailVerification-section .EmailVerification-container .main-container .right form input {
+        width: 100%;
+    }
+
+    .EmailVerification-section .EmailVerification-container .main-container {
+        width: 100%;
+        backdrop-filter: none;
+    }
+
+    .EmailVerification-section .EmailVerification-container {
+        padding: 40px 20px;
+    }
+
+    .EmailVerification-section .EmailVerification-container .main-container .right .heading span {
+        text-align: center;
+        line-height: 1.1;
+    }
+
+}
