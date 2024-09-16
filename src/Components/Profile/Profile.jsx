@@ -58,9 +58,9 @@ function Profile() {
         navigate("/login");
     };
 
-    const handleChangePassword = () => {
-        navigate("/change-password")
-    };
+    // const handleChangePassword = () => {
+    //     navigate("/change-password")
+    // };
 
     return (
         <section className="Profile-section">
@@ -77,8 +77,8 @@ function Profile() {
                         <p>Email: {userData.email || "johndoe@example.com"}</p>
                         <p>Phone: {userData.phone || "+123 456 7890"}</p>
                         <div className="Profile-actions">
-                            <button className="Edit-profile-btn">Edit Profile</button>
-                            <button className="Change-password-btn" onClick={handleChangePassword}>Change Password</button>
+                            {/* <button className="Edit-profile-btn">Edit Profile</button>
+                            <button className="Change-password-btn" onClick={handleChangePassword}>Change Password</button> */}
                             <button className="Logout-btn" onClick={handleLogout}>Logout</button>
                         </div>
                     </div>
