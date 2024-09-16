@@ -5,9 +5,14 @@ import './FinalCart.css';
 import toast from 'react-hot-toast';
 
 function FinalCart() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Get data from navigation state
+  const { shippingFee = 0, totalAmount = 0 } = location.state || {};
   const userId = localStorage.getItem("userid");
+
   const [formData, setFormData] = useState({
-    // userId: "123456",
     userId: userId,
     name: '',
     email: '',
@@ -17,70 +22,52 @@ function FinalCart() {
     city: '',
     pin: '',
     cartItems: [],
-    totalPrice: 0,
+    totalPrice: totalAmount - shippingFee, // Exclude shipping fee from totalPrice
     transactionId: '',
     orderStatus: 'Order Is Placed',
     paymentMode: 'Online Payment',
-    paymentStatus: 'Pending'
+    paymentStatus: 'Pending',
+    shippingFee: shippingFee, // Add shippingFee to formData
+    finalAmount: totalAmount // Add finalAmount to formData
   });
 
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const cartKey = location.state?.source === 'buyNow' ? 'nglxcartItemsBuynow' : 'nglxcartItems';
-
-  // Effect to retrieve cart items from localStorage
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem(cartKey)) || [];
-    console.log("items retrieved from localStorage:", items); // Check items retrieved
+    const items = JSON.parse(localStorage.getItem('nglxcartItems')) || [];
     setFormData(prev => ({ ...prev, cartItems: items }));
-  }, [cartKey]);
+  }, []);
 
-  // Effect to calculate total price
-  useEffect(() => {
-    if (formData.cartItems.length > 0) {
-      const total = formData.cartItems.reduce((acc, item) => acc + (item.productprice * item.productquantity), 0);
-      setFormData(prev => ({ ...prev, totalPrice: total }));
-      console.log("Updated total price:", total); // Check total price calculation
-    }
-  }, [formData.cartItems]);
-
-  // Handle input field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle payment mode change
   const handlePaymentModeChange = (e) => {
     setFormData(prev => ({ ...prev, paymentMode: e.target.value }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    if (formData.paymentMode === 'Cash on Delivery') {
-      try {
-        console.log(formData)
+    try {
+      if (formData.paymentMode === 'Cash on Delivery') {
         const response = await axios.post('http://localhost:5100/api/checkout', formData);
-        toast.success('checkout completed successfully!');
-        localStorage.removeItem(cartKey);
+        toast.success('Checkout completed successfully!');
+        localStorage.removeItem('nglxcartItems');
         navigate('/order-confirmation');
-      } catch (error) {
-        console.error(error);
-        toast.error('Error during checkout. Please try again.');
-      } finally {
-        setLoading(false);
+      } else {
+        handleRazorpayPayment();
       }
-    } else {
-      handleRazorpayPayment();
+    } catch (error) {
+      console.error(error);
+      toast.error('Error during checkout. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Handle Razorpay payment for Online Payment
   const handleRazorpayPayment = async () => {
     try {
       const response = await axios.post('http://localhost:5100/api/checkout', formData);
@@ -89,7 +76,7 @@ function FinalCart() {
       const amountInPaise = Math.round(amount);
 
       const options = {
-        key: 'rzp_test_XPcfzOlm39oYi8', // Replace with your Razorpay key
+        key: 'rzp_test_XPcfzOlm39oYi8',
         amount: amountInPaise.toString(),
         currency: currency,
         name: 'Your Company Name',
@@ -107,7 +94,7 @@ function FinalCart() {
               razorpay_signature: signature,
             });
             toast.success('Payment successful!');
-            localStorage.removeItem(cartKey);
+            localStorage.removeItem('nglxcartItems');
             navigate('/order-confirmation');
           } catch (error) {
             console.error('Payment verification error:', error);
@@ -144,34 +131,32 @@ function FinalCart() {
                 formData.cartItems.map((item, index) => {
                   const itemTotalPrice = item.productprice * (item.productquantity || 1);
                   return (
-                    <>
-                      <div key={item.id || index} className="flex flex-col md:flex-row mb-3 p-2 border rounded">
-                        <img
-                          className="m-2 rounded border order-summary-img"
-                          src={item.productimage}
-                          alt={item.productname}
-                          style={{ maxWidth: "100px", maxHeight: "100px" }}
-                        />
-                        <div className="flex-grow flex flex-col justify-between px-3 py-2">
-                          <span className="product-name font-bold">{item.productname}</span>
-                          <span className="text-lg font-bold">Quantity: {item.productquantity}</span>
-                          <p className="text-lg font-bold text-red-600">Rs {itemTotalPrice}</p>
-
-                        </div>
+                    <div key={item.id || index} className="flex flex-col md:flex-row mb-3 p-2 border rounded">
+                      <img
+                        className="m-2 rounded border order-summary-img"
+                        src={item.productimage}
+                        alt={item.productname}
+                        style={{ maxWidth: "100px", maxHeight: "100px" }}
+                      />
+                      <div className="flex-grow flex flex-col justify-between px-3 py-2">
+                        <span className="product-name font-bold">{item.productname}</span>
+                        <span className="text-lg font-bold">Quantity: {item.productquantity}</span>
+                        <p className="text-lg font-bold text-red-600">Rs {itemTotalPrice}</p>
                       </div>
-                    </>
+                    </div>
                   );
                 })
               ) : (
                 <p>No products in the cart</p>
               )}
               <div>
-                <p className='text-xl font-bold'>Total Price - {formData.totalPrice}</p>
+                <p className='text-xl font-bold'>Total Price - Rs {formData.totalPrice}</p>
+                <p className='text-xl font-bold'>Shipping Fee - Rs {formData.shippingFee}</p>
+                <p className='text-xl font-bold'>Final Amount - Rs {formData.finalAmount}</p>
               </div>
             </div>
           </div>
         </div>
-
         <div className="md:w-1/2 mt-4 md:mt-0 md:ml-4">
           <div className="bg-gray-100 p-4 rounded">
             <p className="text-xl font-bold">Billing Address</p>

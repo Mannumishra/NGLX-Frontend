@@ -11,7 +11,7 @@
     width: 100%;
     background: white;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); */
     padding: 40px;
 }
 
@@ -58,7 +58,7 @@
     margin-top: 20px;
 }
 
-.Edit-profile-btn, 
+.Edit-profile-btn,
 .Change-password-btn,
 .Logout-btn {
     padding: 10px 20px;
@@ -169,4 +169,68 @@
         flex-direction: column;
         gap: 10px;
     }
+}
+
+
+/* Order History Section */
+.order-history-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); */
+}
+
+/* Order Card */
+.order-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.order-summary {
+    margin-bottom: 15px;
+}
+
+.order-products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.product-details {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-details img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Existing styles */
+
+.Cancel-order-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.Cancel-order-btn:hover {
+    background-color: #c82333;
 }

@@ -33,7 +33,7 @@ function Header() {
                 <div className="cart-box">
                     <Link to={login ? '/profile' : '/login'} ><i class="ri-user-3-fill"></i></Link>
                     <Link to={'/cart'} className="cart">
-                        <span>Rs.0</span>
+                        {/* <span>Rs.0</span> */}
                         <i class="ri-shopping-cart-2-fill"></i>
                     </Link>
                 </div>
@@ -50,9 +50,9 @@ function Header() {
                         <li><Link onClick={menuCloseToggle} to={'/contact'} >CONTACT</Link></li>
                     </ul>
                     <div className="mob-cart-box">
-                        <Link to={login ? '/profile' : '/login'} ><i class="ri-user-3-fill"></i></Link>
+                        <Link to={login ? '/profile' : '/login'} onClick={menuCloseToggle}><i class="ri-user-3-fill"></i></Link>
                         <Link to={'/cart'} onClick={menuCloseToggle} className="cart">
-                            <span>$0.00</span>
+                            {/* <span>$0.00</span> */}
                             <i class="ri-shopping-cart-2-fill"></i>
                         </Link>
                     </div>

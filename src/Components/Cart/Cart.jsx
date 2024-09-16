@@ -66,71 +66,92 @@ const Cart = () => {
     <>
       <section className='cart-section'>
         <div className="cart-container">
-          <div className="heading">
-            <h2>Shopping Cart</h2>
-          </div>
-          <div className="main-container">
-            <div className="left">
-              {data.length > 0 ? (
-                data.map((item, index) => (
-                  <div key={index} className="row">
-                    <div className="img">
-                      <img src={item.productimage || 'fallback-image.png'} alt={item.productname} />
-                    </div>
-                    <div className="content">
-                      <div className="price">
-                        <h2>Rs.{item.productprice * item.productquantity}</h2>
-                      </div>
-                      <div className="name-in">
-                        <h1 className='product-name'>{item.productname}</h1>
-                        <div className="count">
-                          <div className="pluse" onClick={() => handleDecrease(item)}>
-                            <i className="ri-subtract-fill"></i>
+          {
+            data.length > 0 ?
+              <>
+                <div className="heading">
+                  <h2>Shopping Cart</h2>
+                </div>
+                <div className="main-container">
+                  <div className="left">
+                    {data.length > 0 ? (
+                      data.map((item, index) => (
+                        <div key={index} className="row">
+                          <div className="img">
+                            <img src={item.productimage || 'fallback-image.png'} alt={item.productname} />
                           </div>
-                          <div className="input">
-                            <span>{item.productquantity || 1}</span>
-                          </div>
-                          <div className="pluse" onClick={() => handleIncrease(item)}>
-                            <i className="ri-add-fill"></i>
+                          <div className="content">
+                            <div className="price">
+                              <h2>Rs.{item.productprice * item.productquantity}</h2>
+                            </div>
+                            <div className="name-in">
+                              <h1 className='product-name'>{item.productname}</h1>
+                              <div className="count">
+                                <div className="pluse" onClick={() => handleDecrease(item)}>
+                                  <i className="ri-subtract-fill"></i>
+                                </div>
+                                <div className="input">
+                                  <span>{item.productquantity || 1}</span>
+                                </div>
+                                <div className="pluse" onClick={() => handleIncrease(item)}>
+                                  <i className="ri-add-fill"></i>
+                                </div>
+                              </div>
+                              <button className='Remove-Btn' onClick={() => handleRemove(item)}>Remove</button>
+                            </div>
                           </div>
                         </div>
-                        <button className='Remove-Btn' onClick={() => handleRemove(item)}>Remove</button>
-                      </div>
-                    </div>
+                      ))
+                    ) : (
+                      <p>Your cart is empty.</p>
+                    )}
                   </div>
-                ))
-              ) : (
-                <p>Your cart is empty.</p>
-              )}
-            </div>
-            <div className="right">
-              <div className="p-box">
-                <table className="price-table">
-                  <tbody>
-                    <tr>
-                      <td><h4>Total Price</h4></td>
-                      <td><p>Rs.{totalMainPrice}</p></td>
-                    </tr>
-                    <tr>
-                      <td><h4>Shipping Fee</h4></td>
-                      <td><p>Rs.{shippingFee}</p></td>
-                    </tr>
-                    <tr className="final-row">
-                      <td><h4>Final Amount</h4></td>
-                      <td><p>Rs.{totalAmount}</p></td>
-                    </tr>
-                  </tbody>
-                </table>
-                <p>Pan India Free Shipping for orders above ₹450</p>
-                <Link to={login ? "/cart/finalcart" : "/login"} state={{ fromCart: "/cart" }} className="CHECKOUT-btn">
-                  Proceed to Checkout
-                </Link>
-              </div>
-            </div>
-          </div>
+                  {
+                    data.length > 0 ? <div className="right">
+                      <div className="p-box">
+                        <table className="price-table">
+                          <tbody>
+                            <tr>
+                              <td><h4>Total Price</h4></td>
+                              <td><p>Rs.{totalMainPrice}</p></td>
+                            </tr>
+                            <tr>
+                              <td><h4>Shipping Fee</h4></td>
+                              <td><p>Rs.{shippingFee}</p></td>
+                            </tr>
+                            <tr className="final-row">
+                              <td><h4>Final Amount</h4></td>
+                              <td><p>Rs.{totalAmount}</p></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <p>Pan India Free Shipping for orders above ₹450</p>
+                        <Link
+                          to={login ? "/cart/finalcart" : "/login"}
+                          state={{
+                            fromCart: "/cart",
+                            shippingFee: shippingFee,
+                            totalAmount: totalAmount
+                          }}
+                          className="CHECKOUT-btn"
+                        >
+                          Proceed to Checkout
+                        </Link>
+
+                      </div>
+                    </div> : null
+                  }
+                </div>
+              </> :
+              <>
+                <div className="heading" style={{ textAlign: "center" }}>
+                  <h2>Shopping Cart</h2>
+                  <Link to="/">Shop Now</Link>
+                </div>
+              </>
+          }
         </div>
       </section>
-      <button onClick={handleLogout} className="logout-button">Logout</button>
     </>
   );
 };

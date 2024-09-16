@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-// import './ForgetPassword.css' // Make sure to create a CSS file for custom styling
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 function ForgetPassword() {
     useEffect(() => {
@@ -12,71 +11,63 @@ function ForgetPassword() {
             behavior: 'smooth'
         });
     }, []);
+
+    const [step, setStep] = useState(1); // Step 1: Enter email, Step 2: Enter OTP, Step 3: Reset Password
+    const [email, setEmail] = useState('');
+    const [otp, setOtp] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [getOtp, setGetOtp] = useState(false);
+    const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        email: "",
-        newPassword: "",
-        otp: ""
-    })
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
+    // Function to handle sending OTP
+    const handleSendOtp = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const response = await axios.post('http://localhost:5100/api/forget-password/send-otp', { email });
+            console.log(response);
+            toast.success(response.data.message);
+            setStep(2); // Move to OTP step
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response?.data?.message || 'Error sending OTP');
+        }
+        setLoading(false);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setLoading(true); // Set loading to true when the request starts
+    // Function to verify OTP
+    const handleVerifyOtp = async (e) => {
+        e.preventDefault();
+        setLoading(true);
         try {
-            const response = await axios.post("http://localhost:5100/api/Password-change-request", formData);
-            console.log(response.data);
-            toast.success(response.data.msg);
-            setGetOtp(true);
-        } catch (err) {
-            console.log(err);
-            console.log(err.response?.data.msg);
-            toast.error(err.response?.data?.msg ?? "Internal Server error");
-        } finally {
-            setLoading(false); // Set loading to false when the request finishes
-        }
-    }
-
-    const handleOTPSubmit = async (otpevent) => {
-        otpevent.preventDefault();
-        setLoading(true); // Set loading to true when the request starts
-        try {
-            const response = await axios.post(`http://localhost:5100/api/Verify-Otp/${formData.email}/${formData.newPassword}`, formData);
-            console.log(response.data);
-            toast.success(response.data.msg);
-            window.location.href = "/login";
+            const response = await axios.post('http://localhost:5100/api/forget-password/verify-otp', { email, otp });
+            toast.success(response.data.message);
+            setStep(3); // Move to Reset Password step
         } catch (error) {
             console.log(error);
-            console.log(error.response.data.msg);
-            toast.error(error.response.data.msg);
-        } finally {
-            setLoading(false); // Set loading to false when the request finishes
+            toast.error(error.response?.data?.message || 'Error verifying OTP');
         }
-    }
+        setLoading(false);
+    };
 
-    const resendOTP = async (otpevent) => {
-        otpevent.preventDefault();
-        setLoading(true); // Set loading to true when the request starts
-        try {
-            const response = await axios.post(`http://localhost:5100/api/resend-sign-Otp/`, formData);
-            console.log(response.data);
-            toast.success('OTP Resent Successfully');
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.msg);
-        } finally {
-            setLoading(false); // Set loading to false when the request finishes
+    // Function to reset password
+    const handleResetPassword = async (e) => {
+        e.preventDefault();
+        if (password !== confirmPassword) {
+            toast.error("Passwords do not match");
+            return;
         }
-    }
+        setLoading(true);
+        try {
+            const response = await axios.post('http://localhost:5100/api/forget-password/reset-password', { email, password });
+            toast.success(response.data.message);
+            navigate("/login");
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Error resetting password');
+        }
+        setLoading(false);
+    };
 
     return (
         <section className='EmailVerification-section'>
@@ -86,36 +77,85 @@ function ForgetPassword() {
                         <div className="heading">
                             <span>Set New Password</span>
                         </div>
-                        <form action="">
-                            <div className="detail">
-                                <input required type="email" name="email" onChange={handleChange} value={formData.email} placeholder='Email Id' disabled={loading} />
-                                <input required type="password" name="newPassword" value={formData.newPassword} onChange={handleChange} placeholder='New Password' disabled={loading} />
-                                {getOtp && (
-                                    <>
-                                        <input required type="text" name="otp" value={formData.otp} onChange={handleChange} placeholder='Enter OTP' disabled={loading} />
-                                        <p className="text-warning h6">OTP is only valid for 5 minutes.</p>
-                                        <div className="flex">
-                                            <div className="keep">
-                                                <Link onClick={resendOTP} style={{ color: 'red', pointerEvents: loading ? 'none' : 'auto' }}>
-                                                    {loading ? 'Resending...' : 'Resend OTP'}
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
-                                {getOtp ? (
-                                    <input onClick={handleOTPSubmit} className='btn-grad' type="submit" value={loading ? 'Loading...' : 'Submit OTP'} disabled={loading} />
-                                ) : (
-                                    <input onClick={handleSubmit} className='btn-grad' type="submit" value={loading ? 'Loading...' : 'GET OTP'} disabled={loading} />
-                                )}
-                            </div>
-                        </form>
+                        {step === 1 && (
+                            <form onSubmit={handleSendOtp}>
+                                <div className="detail">
+                                    <input 
+                                        required 
+                                        type="email" 
+                                        name="email" 
+                                        onChange={(e) => setEmail(e.target.value)} 
+                                        value={email} 
+                                        placeholder='Email Id' 
+                                        disabled={loading} 
+                                    />
+                                    <input 
+                                        className='btn-grad' 
+                                        type="submit" 
+                                        value={loading ? 'Loading...' : 'GET OTP'} 
+                                        disabled={loading} 
+                                    />
+                                </div>
+                            </form>
+                        )}
+                        {step === 2 && (
+                            <form onSubmit={handleVerifyOtp}>
+                                <div className="detail">
+                                    <input 
+                                        required 
+                                        type="text" 
+                                        name="otp" 
+                                        value={otp} 
+                                        onChange={(e) => setOtp(e.target.value)} 
+                                        placeholder='Enter OTP' 
+                                        disabled={loading} 
+                                    />
+                                    <p className="text-warning h6">OTP is only valid for 5 minutes.</p>
+                                    <input 
+                                        className='btn-grad' 
+                                        type="submit" 
+                                        value={loading ? 'Loading...' : 'Submit OTP'} 
+                                        disabled={loading} 
+                                    />
+                                </div>
+                            </form>
+                        )}
+                        {step === 3 && (
+                            <form onSubmit={handleResetPassword}>
+                                <div className="detail">
+                                    <input 
+                                        required 
+                                        type="password" 
+                                        name="password" 
+                                        onChange={(e) => setPassword(e.target.value)} 
+                                        value={password} 
+                                        placeholder='New Password' 
+                                        disabled={loading} 
+                                    />
+                                    <input 
+                                        required 
+                                        type="password" 
+                                        name="confirmPassword" 
+                                        onChange={(e) => setConfirmPassword(e.target.value)} 
+                                        value={confirmPassword} 
+                                        placeholder='Confirm Password' 
+                                        disabled={loading} 
+                                    />
+                                    <input 
+                                        className='btn-grad' 
+                                        type="submit" 
+                                        value={loading ? 'Loading...' : 'Reset Password'} 
+                                        disabled={loading} 
+                                    />
+                                </div>
+                            </form>
+                        )}
                     </div>
                 </div>
             </div>
             <ToastContainer />
         </section>
-    )
+    );
 }
 
 export default ForgetPassword;

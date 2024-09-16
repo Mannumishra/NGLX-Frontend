@@ -19,37 +19,39 @@ import Profile from './Components/Profile/Profile'
 import EmailVerification from './Components/Auth/EmailVerification'
 import ForgetPassword from './Components/Auth/ForgetPassword'
 import FinalCart from './Components/Cart/FinalCart'
+import MyChangePassword from './Components/ChangePassword/MyChangePassword'
 
 function App() {
 
   return (
     <>
-     <BrowserRouter>
-     <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/Shop-All' element={<ShopAll />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/privacy' element={<Privacy />} />
-        <Route path='/term' element={<Term />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/register/email-verificaton/:email' element={<EmailVerification />} />
-        <Route path='/email-verificaton' element={<EmailVerification />} />
-        <Route path='/forget-password' element={<ForgetPassword />} />
-        <Route path='/cart/finalcart' element={<FinalCart />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/Shop-All/singleProductPage' element={<SingleProductPage />} />
-        <Route path='/Shop-All/getProductsByCategory/:category' element={<SingleProductPage />} />
-        <Route path='/Shop-All/getProductsByCategory/:category/single-page/:_id' element={<SinglePage />} />
-        <Route path='/singleProductPage/single-page' element={<SinglePage />} />
-        <Route path='/single-page/:_id' element={<SinglePage />} />
-      </Routes>
-      <Footer />
-      <Toaster/>
-     </BrowserRouter>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/Shop-All' element={<ShopAll />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/privacy' element={<Privacy />} />
+          <Route path='/term' element={<Term />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/register/email-verificaton/:email' element={<EmailVerification />} />
+          <Route path='/email-verificaton' element={<EmailVerification />} />
+          <Route path='/forget-password' element={<ForgetPassword />} />
+          <Route path='/cart/finalcart' element={<FinalCart />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/Shop-All/singleProductPage' element={<SingleProductPage />} />
+          <Route path='/Shop-All/getProductsByCategory/:category' element={<SingleProductPage />} />
+          <Route path='/Shop-All/getProductsByCategory/:category/single-page/:_id' element={<SinglePage />} />
+          <Route path='/singleProductPage/single-page' element={<SinglePage />} />
+          <Route path='/single-page/:_id' element={<SinglePage />} />
+          <Route path='/change-password' element={<MyChangePassword />} />
+        </Routes>
+        <Footer />
+        <Toaster />
+      </BrowserRouter>
     </>
   )
 }
