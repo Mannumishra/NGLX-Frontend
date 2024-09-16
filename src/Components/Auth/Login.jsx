@@ -1,12 +1,13 @@
 import "./login.css";
 import bg from "./WhatsApp Image 2024-01-18 at 15.33.52_7543a4d2.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useEffect, useState } from "react";
 
 const Login = () => {
   // const navigate = useNavigate(); // Uncommented and used
+  const location = useLocation();
   const [loading, setLoading] = useState(false); // Corrected initialization
   const [formdata, setFormdata] = useState({ email: "", password: "" });
   const navigate = useNavigate()
@@ -29,19 +30,27 @@ const Login = () => {
     console.log(formdata);
     try {
       const response = await axios.post(
-        "https://nglx-server.onrender.com/api/login",
+        "http://localhost:5100/api/user/login",
         formdata
       );
+      console.log(response)
       toast.success("Login Successful");
       const loginToken = response.data.token;
       localStorage.setItem('token', loginToken);
       localStorage.setItem("login", true);
-      localStorage.setItem("userid", response.data.user._id);
-      navigate('/');
+      localStorage.setItem("userid", response.data.data._id);
+      if (location.state?.fromCart) {
+        navigate("/cart");
+      }
+      else if (location.state?.fromBuyNow) {
+        navigate("/cart");
+      } else {
+        navigate("/profile");
+      }
     } catch (error) {
       // console.error(error);
       // console.log(error.response.data.error)
-      toast.error('Login Failed');
+      // toast.error('Login Failed');
     } finally {
       setLoading(false); // Set loading to false when login finishes
     }

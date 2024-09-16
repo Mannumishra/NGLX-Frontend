@@ -5,10 +5,10 @@ import './FinalCart.css';
 import toast from 'react-hot-toast';
 
 function FinalCart() {
-  const userId = sessionStorage.getItem("userid");
+  const userId = localStorage.getItem("userid");
   const [formData, setFormData] = useState({
-    userId: "123456",
-    // userId: userId,
+    // userId: "123456",
+    userId: userId,
     name: '',
     email: '',
     phone: '',
@@ -65,7 +65,7 @@ function FinalCart() {
     if (formData.paymentMode === 'Cash on Delivery') {
       try {
         console.log(formData)
-        const response = await axios.post('https://nglx-server.onrender.com/api/checkout', formData);
+        const response = await axios.post('http://localhost:5100/api/checkout', formData);
         toast.success('checkout completed successfully!');
         localStorage.removeItem(cartKey);
         navigate('/order-confirmation');
@@ -83,7 +83,7 @@ function FinalCart() {
   // Handle Razorpay payment for Online Payment
   const handleRazorpayPayment = async () => {
     try {
-      const response = await axios.post('https://nglx-server.onrender.com/api/checkout', formData);
+      const response = await axios.post('http://localhost:5100/api/checkout', formData);
       const { razorpayOrderId, amount, currency } = response.data;
 
       const amountInPaise = Math.round(amount);
@@ -101,7 +101,7 @@ function FinalCart() {
           const signature = response.razorpay_signature;
 
           try {
-            await axios.post('https://nglx-server.onrender.com/api/verify-payment', {
+            await axios.post('http://localhost:5100/api/verify-payment', {
               razorpay_payment_id: paymentId,
               razorpay_order_id: orderId,
               razorpay_signature: signature,

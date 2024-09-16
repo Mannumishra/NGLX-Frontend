@@ -36,7 +36,7 @@ function EmailVerification() {
         otpevent.preventDefault();
         setResending(true); // Set loading to true when resending OTP starts
         try {
-            const response = await axios.post("https://nglx-server.onrender.com/api/resend-sign-Otp", formData)
+            const response = await axios.post("http://localhost:5100/api/resend-sign-Otp", formData)
             console.log(response.data);
             toast.success('OTP Resent');
         } catch (error) {
@@ -52,7 +52,7 @@ function EmailVerification() {
         setLoading(true); // Set loading to true when OTP verification starts
         try {
             console.log(formData);
-            const response = await axios.post("https://nglx-server.onrender.com/api/Verify-sign-Otp", formData)
+            const response = await axios.post("http://localhost:5100/api/Verify-sign-Otp", formData)
             toast.success(response.data.message);
             navigate('/login');
         } catch (error) {

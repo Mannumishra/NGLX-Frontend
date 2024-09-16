@@ -5,7 +5,7 @@ import logo from './logo.png'
 
 function Header() {
     const [IsMenuActive, setIsMenuActive] = useState(false)
-
+    const login = localStorage.getItem("login")
     const activeMenuToggle = () => {
         setIsMenuActive(!IsMenuActive)
     }
@@ -31,7 +31,7 @@ function Header() {
                     <li><Link to={'/contact'} >CONTACT</Link></li>
                 </ul>
                 <div className="cart-box">
-                    <Link to={'/profile'} ><i class="ri-user-3-fill"></i></Link>
+                    <Link to={login ? '/profile' : '/login'} ><i class="ri-user-3-fill"></i></Link>
                     <Link to={'/cart'} className="cart">
                         <span>Rs.0</span>
                         <i class="ri-shopping-cart-2-fill"></i>
@@ -50,7 +50,7 @@ function Header() {
                         <li><Link onClick={menuCloseToggle} to={'/contact'} >CONTACT</Link></li>
                     </ul>
                     <div className="mob-cart-box">
-                        <i class="ri-user-3-fill"></i>
+                        <Link to={login ? '/profile' : '/login'} ><i class="ri-user-3-fill"></i></Link>
                         <Link to={'/cart'} onClick={menuCloseToggle} className="cart">
                             <span>$0.00</span>
                             <i class="ri-shopping-cart-2-fill"></i>

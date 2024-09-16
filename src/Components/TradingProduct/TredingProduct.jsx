@@ -11,7 +11,7 @@ function TredingProduct() {
 
     const datafetching = async() => {
         try {
-            const response = await axios.get('https://nglx-server.onrender.com/api/get-tags')
+            const response = await axios.get('http://localhost:5100/api/get-tags')
             console.log(response.data.data)
             setData(response.data.data)
         } catch (error) {
@@ -21,7 +21,7 @@ function TredingProduct() {
 
     const productData = async() => {
         try {
-            const response = await axios.get('https://nglx-server.onrender.com/api/getAllProducts')
+            const response = await axios.get('http://localhost:5100/api/getAllProducts')
             console.log(response.data.data)
             setProduct(response.data.data)
         } catch (error) {

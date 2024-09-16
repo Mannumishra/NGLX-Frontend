@@ -9,7 +9,7 @@ function CollectionBanner() {
   useEffect(() => {
     const dataFetch = async () => {
       try {
-        const response = await axios.get('https://nglx-server.onrender.com/api/get-sales-Banners');
+        const response = await axios.get('http://localhost:5100/api/get-sales-Banners');
         console.log(response.data.data);
         setBanners(response.data.data);
       } catch (error) {

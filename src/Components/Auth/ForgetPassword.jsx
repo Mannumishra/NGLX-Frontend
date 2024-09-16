@@ -33,7 +33,7 @@ function ForgetPassword() {
         event.preventDefault();
         setLoading(true); // Set loading to true when the request starts
         try {
-            const response = await axios.post("https://nglx-server.onrender.com/api/Password-change-request", formData);
+            const response = await axios.post("http://localhost:5100/api/Password-change-request", formData);
             console.log(response.data);
             toast.success(response.data.msg);
             setGetOtp(true);
@@ -50,7 +50,7 @@ function ForgetPassword() {
         otpevent.preventDefault();
         setLoading(true); // Set loading to true when the request starts
         try {
-            const response = await axios.post(`https://nglx-server.onrender.com/api/Verify-Otp/${formData.email}/${formData.newPassword}`, formData);
+            const response = await axios.post(`http://localhost:5100/api/Verify-Otp/${formData.email}/${formData.newPassword}`, formData);
             console.log(response.data);
             toast.success(response.data.msg);
             window.location.href = "/login";
@@ -67,7 +67,7 @@ function ForgetPassword() {
         otpevent.preventDefault();
         setLoading(true); // Set loading to true when the request starts
         try {
-            const response = await axios.post(`https://nglx-server.onrender.com/api/resend-sign-Otp/`, formData);
+            const response = await axios.post(`http://localhost:5100/api/resend-sign-Otp/`, formData);
             console.log(response.data);
             toast.success('OTP Resent Successfully');
         } catch (error) {

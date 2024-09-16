@@ -14,7 +14,7 @@ const Hero = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await axios.get('https://nglx-server.onrender.com/api/get-Banners');
+        const response = await axios.get('http://localhost:5100/api/get-Banners');
         setBanners(response.data.data); // Assuming the image URLs are under `data`
       } catch (error) {
         console.error('Error fetching banners:', error);

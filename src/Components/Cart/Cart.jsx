@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Cart = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const login = localStorage.getItem("login")
 
   // Fetch cart data from localStorage
   const getCartData = () => {
@@ -78,7 +79,7 @@ const Cart = () => {
                     </div>
                     <div className="content">
                       <div className="price">
-                        <h2>Rs.{item.productprice*item.productquantity}</h2>
+                        <h2>Rs.{item.productprice * item.productquantity}</h2>
                       </div>
                       <div className="name-in">
                         <h1 className='product-name'>{item.productname}</h1>
@@ -121,7 +122,7 @@ const Cart = () => {
                   </tbody>
                 </table>
                 <p>Pan India Free Shipping for orders above ₹450</p>
-                <Link to="/cart/finalcart" state={{ fromCart: "/cart" }} className="CHECKOUT-btn">
+                <Link to={login ? "/cart/finalcart" : "/login"} state={{ fromCart: "/cart" }} className="CHECKOUT-btn">
                   Proceed to Checkout
                 </Link>
               </div>

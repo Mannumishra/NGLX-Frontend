@@ -1,9 +1,172 @@
-.Profile-section{
+.Profile-section {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #f0f2f5;
 }
 
-.Profile-section .Profile-container{
-    max-width: 1920px;
-    margin: 0 auto;
-    padding: 40px 20px;
+.Profile-container {
+    max-width: 1200px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+.Profile-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 20px;
+}
+
+.Profile-avatar img {
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border: 4px solid #007bff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Profile-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Profile-info h2 {
+    margin: 0;
+    font-size: 32px;
+    color: #333;
+}
+
+.Profile-info p {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #555;
+}
+
+.Profile-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.Edit-profile-btn, 
+.Change-password-btn,
+.Logout-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.Edit-profile-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.Edit-profile-btn:hover {
+    background-color: #0056b3;
+}
+
+.Change-password-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.Change-password-btn:hover {
+    background-color: #218838;
+}
+
+.Logout-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.Logout-btn:hover {
+    background-color: #c82333;
+}
+
+.Profile-body {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.Profile-section {
+    margin-bottom: 30px;
+}
+
+.Profile-section h3 {
+    margin-bottom: 15px;
+    font-size: 24px;
+    color: #333;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.Profile-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.Profile-section li {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Order-details-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.Order-details-btn:hover {
+    background-color: #0056b3;
+}
+
+.Profile-section img {
+    max-width: 120px;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .Profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .Profile-avatar {
+        margin-bottom: 20px;
+    }
+
+    .Profile-info h2 {
+        font-size: 28px;
+    }
+
+    .Profile-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
