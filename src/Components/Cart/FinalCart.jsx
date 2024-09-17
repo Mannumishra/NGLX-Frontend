@@ -53,7 +53,7 @@ function FinalCart() {
 
     try {
       if (formData.paymentMode === 'Cash on Delivery') {
-        const response = await axios.post('http://localhost:5100/api/checkout', formData);
+        const response = await axios.post('https://nglx-server.onrender.com/api/checkout', formData);
         toast.success('Checkout completed successfully!');
         localStorage.removeItem('nglxcartItems');
         navigate('/order-confirmation');
@@ -70,7 +70,7 @@ function FinalCart() {
 
   const handleRazorpayPayment = async () => {
     try {
-      const response = await axios.post('http://localhost:5100/api/checkout', formData);
+      const response = await axios.post('https://nglx-server.onrender.com/api/checkout', formData);
       const { razorpayOrderId, amount, currency } = response.data;
 
       const amountInPaise = Math.round(amount);
@@ -88,7 +88,7 @@ function FinalCart() {
           const signature = response.razorpay_signature;
 
           try {
-            await axios.post('http://localhost:5100/api/verify-payment', {
+            await axios.post('https://nglx-server.onrender.com/api/verify-payment', {
               razorpay_payment_id: paymentId,
               razorpay_order_id: orderId,
               razorpay_signature: signature,

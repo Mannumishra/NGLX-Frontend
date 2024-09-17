@@ -30,7 +30,7 @@ const Login = () => {
     console.log(formdata);
     try {
       const response = await axios.post(
-        "http://localhost:5100/api/user/login",
+        "https://nglx-server.onrender.com/api/user/login",
         formdata
       );
       console.log(response)

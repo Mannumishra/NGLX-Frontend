@@ -12,7 +12,7 @@ function Profile() {
     // Fetch user data
     const getApiData = async () => {
         try {
-            const res = await axios.get(`http://localhost:5100/api/user/${userID}`);
+            const res = await axios.get(`https://nglx-server.onrender.com/api/user/${userID}`);
             setUserData(res.data.data);
         } catch (error) {
             console.log(error);
@@ -22,7 +22,7 @@ function Profile() {
     // Fetch order data
     const getOrderData = async () => {
         try {
-            const res = await axios.get(`http://localhost:5100/api/checkout/user/${userID}`);
+            const res = await axios.get(`https://nglx-server.onrender.com/api/checkout/user/${userID}`);
             setOrderData(res.data.data);
         } catch (error) {
             console.log(error);
@@ -32,7 +32,7 @@ function Profile() {
     // Cancel order function
     const cancelOrder = async (orderID) => {
         try {
-            const res = await axios.put(`http://localhost:5100/api/checkout/cancel/${orderID}`);
+            const res = await axios.put(`https://nglx-server.onrender.com/api/checkout/cancel/${orderID}`);
             if (res.data.success) {
                 alert("Order cancelled successfully.");
                 getOrderData();  // Fetch updated order data

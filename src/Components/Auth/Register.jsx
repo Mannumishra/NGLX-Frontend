@@ -46,7 +46,7 @@ function Register() {
     //   console.log(`${pair[0]}: ${pair[1]}`);
     // }
     try {
-      const response = await axios.post('http://localhost:5100/api/user', formDataToSend, {
+      const response = await axios.post('https://nglx-server.onrender.com/api/user', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

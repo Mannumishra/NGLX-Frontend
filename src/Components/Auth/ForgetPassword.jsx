@@ -25,7 +25,7 @@ function ForgetPassword() {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:5100/api/forget-password/send-otp', { email });
+            const response = await axios.post('https://nglx-server.onrender.com/api/forget-password/send-otp', { email });
             console.log(response);
             toast.success(response.data.message);
             setStep(2); // Move to OTP step
@@ -41,7 +41,7 @@ function ForgetPassword() {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:5100/api/forget-password/verify-otp', { email, otp });
+            const response = await axios.post('https://nglx-server.onrender.com/api/forget-password/verify-otp', { email, otp });
             toast.success(response.data.message);
             setStep(3); // Move to Reset Password step
         } catch (error) {
@@ -60,7 +60,7 @@ function ForgetPassword() {
         }
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:5100/api/forget-password/reset-password', { email, password });
+            const response = await axios.post('https://nglx-server.onrender.com/api/forget-password/reset-password', { email, password });
             toast.success(response.data.message);
             navigate("/login");
         } catch (error) {

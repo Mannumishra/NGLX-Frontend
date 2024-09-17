@@ -17,7 +17,7 @@ function SinglePage() {
 
   const dataFetching = async () => {
     try {
-      const res = await axios.get('http://localhost:5100/api/getAllProducts');
+      const res = await axios.get('https://nglx-server.onrender.com/api/getAllProducts');
       const fetchData = res.data.data;
       const fetched = fetchData.find((item) => item._id === _id);
       setData([fetched]); // Ensure data is an array

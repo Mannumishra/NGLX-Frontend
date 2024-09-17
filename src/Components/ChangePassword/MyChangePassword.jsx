@@ -24,7 +24,7 @@ const MyChangePassword = () => {
         }
 
         try {
-            const res = await axios.post("http://localhost:5100/api/user/chnage-password", { email: email, currentPassword: currentPassword, newPassword: newPassword })
+            const res = await axios.post("https://nglx-server.onrender.com/api/user/chnage-password", { email: email, currentPassword: currentPassword, newPassword: newPassword })
             console.log(res);
             setSuccess('Password changed successfully');
             navigate("/profile")
